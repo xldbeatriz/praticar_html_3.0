@@ -60,5 +60,26 @@ imageUpload.addEventListener("change", e => {
   reader.readAsDataURL(file);
 });
 
+// 👉 Permitir Tab para indentação nos editores
+document.querySelectorAll("textarea.code").forEach(area => {
+  area.addEventListener("keydown", function(e) {
+    if (e.key === "Tab") {
+      e.preventDefault();
+
+      const start = this.selectionStart;
+      const end = this.selectionEnd;
+
+      // Insere um Tab real (\t)
+      const indent = "\t";
+
+      this.value =
+        this.value.substring(0, start) + indent + this.value.substring(end);
+
+      // Reposiciona o cursor depois da indentação
+      this.selectionStart = this.selectionEnd = start + indent.length;
+    }
+  });
+});
+
 // Render inicial
 updatePreview();
